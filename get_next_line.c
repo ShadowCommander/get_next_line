@@ -20,7 +20,7 @@
 int		get_next_line(const int fd, char **line)
 {
 	static char	*sav[FD_MAX];
-	char		buf[BUFF_SIZE + 1];
+	char		buf[BUFFER_SIZE + 1];
 	char		*tmp;
 	ssize_t		size;
 
@@ -30,7 +30,7 @@ int		get_next_line(const int fd, char **line)
 		sav[fd] = ft_strnew(0);
 	size = 0;
 	while (!(tmp = ft_strchr(sav[fd], '\n')) &&
-			(size = read(fd, buf, BUFF_SIZE)) > 0)
+			(size = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
 		buf[size] = '\0';
 		tmp = ft_strjoin(sav[fd], buf);

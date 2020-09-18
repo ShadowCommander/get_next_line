@@ -15,7 +15,7 @@
 
 # include <stdlib.h>
 
-# define BUFF_SIZE 32
+# define BUFFER_SIZE 32
 
 int		get_next_line(const int fd, char **line);
 size_t	ft_strlen(const char *str);
