@@ -6,7 +6,7 @@
 /*   By: jtong <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 20:35:10 by jtong             #+#    #+#             */
-/*   Updated: 2020/09/18 04:39:54 by jtong            ###   ########.fr       */
+/*   Updated: 2020/10/07 02:14:37 by jtong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int		get_next_line(const int fd, char **line)
 
 	if (fd < 0 || !line)
 		return (-1);
-	if (!sav[fd])
+	if (sav[fd] == NULL)
 		sav[fd] = ft_strnew(0);
 	size = 0;
 	while (!(tmp = ft_strchr(sav[fd], '\n')) &&
@@ -43,5 +43,5 @@ int		get_next_line(const int fd, char **line)
 	tmp = tmp ? ft_strsub(tmp + 1, 0, ft_strlen(tmp + 1)) : NULL;
 	free(sav[fd]);
 	sav[fd] = tmp;
-	return (sav[fd] || **line);
+	return (sav[fd] != NULL);
 }
