@@ -6,7 +6,7 @@
 /*   By: jtong <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/18 04:05:06 by jtong             #+#    #+#             */
-/*   Updated: 2020/09/18 13:47:50 by jtong            ###   ########.fr       */
+/*   Updated: 2020/10/07 03:47:11 by jtong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,6 @@ size_t	ft_strlen(const char *str)
 	return (end - str);
 }
 
-char	*ft_strchr(const char *s, int c)
-{
-	while (*s && *s != c)
-		s++;
-	if (*s == c)
-		return ((char *)s);
-	return (NULL);
-}
-
 char	*ft_strnew(size_t size)
 {
 	unsigned char	*out;
@@ -44,6 +35,15 @@ char	*ft_strnew(size_t size)
 	return ((char *)out);
 }
 
+char	*ft_strchr(const char *s, int c)
+{
+	while (*s && *s != c)
+		s++;
+	if (*s == c)
+		return ((char *)s);
+	return (NULL);
+}
+
 char	*ft_strsub(char const *s, unsigned int start, size_t len)
 {
 	char	*str;
@@ -52,11 +52,9 @@ char	*ft_strsub(char const *s, unsigned int start, size_t len)
 	if (!s || !(str = (char *)malloc(sizeof(*str) * (len + 1))))
 		return (NULL);
 	i = 0;
-	while ((str[i] = s[start + i]) && ++i < len)
-		;
-	if (i < len)
-		str[i] = '\0';
-	str[len] = '\0';
+	while (i < len && (str[i] = s[start + i]))
+		i++;
+	str[i] = '\0';
 	return (str);
 }
 
@@ -71,19 +69,11 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	len = ft_strlen(s1);
 	if (!(str = (char *)malloc(sizeof(*str) * (len + ft_strlen(s2) + 1))))
 		return (NULL);
-	len = 0;
-	while (s1[len] != '\0')
-	{
-		str[len] = s1[len];
-		len++;
-	}
 	i = 0;
-	while (s2[i] != '\0')
-	{
-		str[len] = s2[i];
+	while ((str[i] = s1[i]))
 		i++;
-		len++;
-	}
-	str[len] = s2[i];
+	i = 0;
+	while ((str[i + len] = s2[i]))
+		i++;
 	return (str);
 }
