@@ -24,7 +24,7 @@ int		get_next_line(const int fd, char **line)
 	char		*tmp;
 	ssize_t		size;
 
-	if (fd < 0 || !line)
+	if (fd < 0 || !line || BUFFER_SIZE < 1)
 		return (-1);
 	if (sav[fd] == NULL)
 		sav[fd] = ft_strnew(0);
