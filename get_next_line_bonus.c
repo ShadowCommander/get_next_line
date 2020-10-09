@@ -6,7 +6,7 @@
 /*   By: jtong <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 20:35:10 by jtong             #+#    #+#             */
-/*   Updated: 2020/10/07 02:14:37 by jtong            ###   ########.fr       */
+/*   Updated: 2020/10/08 21:14:11 by jtong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,13 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <stdio.h>
-#define FD_MAX 65535
+
+char	*ft_strreplace(char *s1, char *s2)
+{
+	if (s1 != NULL)
+		free(s1);
+	return (s2);
+}
 
 int		get_next_line(const int fd, char **line)
 {
@@ -26,22 +32,21 @@ int		get_next_line(const int fd, char **line)
 
 	if (fd < 0 || !line || BUFFER_SIZE < 1)
 		return (-1);
-	if (sav[fd] == NULL)
-		sav[fd] = ft_strnew(0);
 	size = 0;
+	if (!sav[fd])
+		sav[fd] = ft_strnew(0);
 	while (!(tmp = ft_strchr(sav[fd], '\n')) &&
 			(size = read(fd, buf, BUFFER_SIZE)) > 0)
-	{
-		buf[size] = '\0';
-		tmp = ft_strjoin(sav[fd], buf);
-		free(sav[fd]);
-		sav[fd] = tmp;
-	}
+		sav[fd] = ft_strreplace(sav[fd], ft_strnjoin(sav[fd], buf, size));
 	if (size < 0)
+	{
+		free(sav[fd]);
 		return (-1);
-	*line = ft_strsub(sav[fd], 0, tmp ? tmp - sav[fd] : ft_strlen(sav[fd]));
-	tmp = tmp ? ft_strsub(tmp + 1, 0, ft_strlen(tmp + 1)) : NULL;
-	free(sav[fd]);
-	sav[fd] = tmp;
+	}
+	*line = ft_strsub(sav[fd], 0,
+		tmp ? (size_t)(tmp - sav[fd]) : ft_strlen(sav[fd]));
+	if (tmp != NULL)
+		tmp++;
+	sav[fd] = ft_strreplace(sav[fd], ft_strsub(tmp, 0, ft_strlen(tmp)));
 	return (sav[fd] != NULL);
 }

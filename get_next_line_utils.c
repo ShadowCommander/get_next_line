@@ -6,7 +6,7 @@
 /*   By: jtong <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/18 04:05:06 by jtong             #+#    #+#             */
-/*   Updated: 2020/10/07 03:47:11 by jtong            ###   ########.fr       */
+/*   Updated: 2020/10/08 16:16:00 by jtong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ size_t	ft_strlen(const char *str)
 {
 	const char	*end;
 
+	if (!str)
+		return (0);
 	end = str;
 	while (*end)
 		end++;
@@ -37,6 +39,8 @@ char	*ft_strnew(size_t size)
 
 char	*ft_strchr(const char *s, int c)
 {
+	if (!s)
+		return (NULL);
 	while (*s && *s != c)
 		s++;
 	if (*s == c)
@@ -58,22 +62,26 @@ char	*ft_strsub(char const *s, unsigned int start, size_t len)
 	return (str);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strnjoin(char const *s1, char const *s2, size_t num)
 {
 	size_t	i;
 	size_t	len;
 	char	*str;
 
-	if (!s1 || !s2)
+	if (!s2)
 		return (NULL);
 	len = ft_strlen(s1);
-	if (!(str = (char *)malloc(sizeof(*str) * (len + ft_strlen(s2) + 1))))
+	if (!(str = (char *)malloc(sizeof(*str) * (len + num + 1))))
 		return (NULL);
+	if (s1 != NULL)
+	{
+		i = 0;
+		while ((str[i] = s1[i]))
+			i++;
+	}
 	i = 0;
-	while ((str[i] = s1[i]))
+	while (i < num && (str[len + i] = s2[i]))
 		i++;
-	i = 0;
-	while ((str[i + len] = s2[i]))
-		i++;
+	str[len + i] = '\0';
 	return (str);
 }
